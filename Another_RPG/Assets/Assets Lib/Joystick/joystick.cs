@@ -22,7 +22,7 @@ public class joystick : MonoBehaviour {
 
 
 
-    public float size; // В пикселях. Реальный размер джойстика в пикселях
+    private float size; // В пикселях. Реальный размер джойстика в пикселях
     public float sizeCoef = 1.0f / 8; // [0,1] относительно ширины экрана 
     public float differentCoef = 1.0f / (10.0f / 8); // Разница подложки и крышки 1 - нет раницы [0..1]
 
@@ -34,8 +34,8 @@ public class joystick : MonoBehaviour {
     public float localXpositionCoef = 1.0f / 4;  //[0 .. 1/2] локальная позиция в экране в доле
     public float localYpositionCoef = 1.0f / 5;  //[0 .. 1/2] локальная позиция в экране
 
-    public float localXposition = 0; // Дефолтное положение джойстика. Рассчитывается с коефами выше
-    public float localYposition = 0;
+    private float localXposition = 0; // Дефолтное положение джойстика. Рассчитывается с коефами выше
+    private float localYposition = 0;
 
 
     public int touchid = -1; // id тача на джойстике
@@ -44,7 +44,7 @@ public class joystick : MonoBehaviour {
 
 
     public float maxOutTopCoef = 1.0f/ 6; // Коэфицент на который можно унести верхнуюю часть от подложки в зависимости от высоты экрана
-    public float maxOutTopDist; // Реальная пиксельная дистанция
+    private float maxOutTopDist; // Реальная пиксельная дистанция
 
 
     // Use this for initialization
