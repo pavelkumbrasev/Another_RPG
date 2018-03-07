@@ -11,4 +11,22 @@ public class Hero : Unit {
         
     }
 
+    private void FixedUpdate()
+    {
+       // Debug.Log(Input.GetAxis("Horizontal"));
+        if (Input.GetAxis("Horizontal") !=0)
+        {
+            if (Input.GetAxis("Horizontal") > 0)
+                direction = 1;
+            else direction = -1;
+            Move();
+        }
+        //if (Input.GetButtonDown("Horizontal"))
+    }
+
+    protected override void Move()
+    {
+        Vector3 force = transform.right * direction * speed;
+        rigidbody.AddForce(force,ForceMode2D.Impulse);
+    }
 }
