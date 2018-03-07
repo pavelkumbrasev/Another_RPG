@@ -11,7 +11,7 @@ public class joystick : MonoBehaviour {
     public float VerticalAxis; // Тоже
 
 
-
+    private Touch th;
 
     public float deathZone = 1.0f / 2; // Мертвая зона контроллера [0..1]. 1/10 - 10% расстояния не будут восприниматься никак 
 
@@ -28,7 +28,7 @@ public class joystick : MonoBehaviour {
 
 
 
-  //  public GameObject text; 
+    public GameObject text; 
   
 
     public float localXpositionCoef = 1.0f / 4;  //[0 .. 1/2] локальная позиция в экране в доле
@@ -66,8 +66,8 @@ public class joystick : MonoBehaviour {
 
     void resetJoystic()
     {
-        jTOP.GetComponent<RectTransform>().position = new Vector2(localXposition, localYposition);
-        jDOWN.GetComponent<RectTransform>().position = new Vector2(localXposition, localYposition);
+        jTOP.GetComponent<RectTransform>().localPosition = new Vector2(localXposition - Screen.width/2, localYposition - Screen.height / 2);
+        jDOWN.GetComponent<RectTransform>().localPosition = new Vector2(localXposition - Screen.width / 2, localYposition - Screen.height / 2);
     }
 
 
@@ -100,9 +100,10 @@ public class joystick : MonoBehaviour {
 
     void setNewPosition(int x, int y)
     {
-
-        jTOP.GetComponent<RectTransform>().position = new Vector2(x, y);
-        jDOWN.GetComponent<RectTransform>().position = new Vector2(x, y);
+        Debug.Log(new Vector2(x, y));
+        Debug.Log(new Vector2(x - Screen.width, y - Screen.height));
+        jTOP.GetComponent<RectTransform>().localPosition = new Vector2(x - Screen.width / 2, y - Screen.height / 2);
+        jDOWN.GetComponent<RectTransform>().localPosition = new Vector2(x - Screen.width /2,  y - Screen.height /2);
 
     }
 
@@ -111,7 +112,7 @@ public class joystick : MonoBehaviour {
     void setNewPositionTop(int x, int y)
     {
 
-        jTOP.GetComponent<RectTransform>().position = new Vector2(x, y);
+        jTOP.GetComponent<RectTransform>().localPosition = new Vector2(x, y);
       //  jDOWN.GetComponent<RectTransform>().position = new Vector2(x, y);
 
     }
@@ -124,8 +125,12 @@ public class joystick : MonoBehaviour {
 
 
 
+        text.GetComponent<UnityEngine.UI.Text>().text = touchid.ToString() + "Touch Count = " + Input.touchCount.ToString() + "\n";
 
-       // text.GetComponent<UnityEngine.UI.Text>().text =  "X: " + HorizontalAxis.ToString() + " " + "Y: " + VerticalAxis.ToString();
+        for (int i = 0; i < Input.touchCount; i++)
+            text.GetComponent<UnityEngine.UI.Text>().text += i.ToString() + "fID " + Input.touches[i].fingerId + "\n";
+
+        // text.GetComponent<UnityEngine.UI.Text>().text =  "X: " + HorizontalAxis.ToString() + " " + "Y: " + VerticalAxis.ToString();
 
         if (Input.touchCount > 0 && touchid == -1) // Найдем нужный нам палец левой нижней четверти и запомним его, если его небыло раньше
         {
@@ -139,6 +144,7 @@ public class joystick : MonoBehaviour {
                     Input.touches[i].phase == TouchPhase.Began)
                 {
                     touchid = Input.touches[i].fingerId;
+                    th = Input.touches[i];
                  //   text.GetComponent<UnityEngine.UI.Text>().text = "I Found Id!";
                     break;
                   
@@ -168,7 +174,7 @@ public class joystick : MonoBehaviour {
 */
 
 
-        if (touchid != -1) // Если, таки, палец есть
+        if (touchid != -1 && Input.touchCount > 0) // Если, таки, палец есть
         {
 
             if (Input.GetTouch(touchid).phase == TouchPhase.Began)
@@ -184,7 +190,9 @@ public class joystick : MonoBehaviour {
 
               
 
-                Vector2 vect = Input.GetTouch(touchid).position - (Vector2)jDOWN.GetComponent<RectTransform>().position;
+                Vector2 vect = Input.GetTouch(touchid).position - (Vector2)jDOWN.GetComponent<RectTransform>().localPosition - new Vector2(Screen.width /2, Screen.height /2);
+
+               // text.GetComponent<UnityEngine.UI.Text>().text = vect.ToString();
 
 
                 if (Mathf.Sqrt(vect.x * vect.x + vect.y * vect.y) > maxOutTopDist)
@@ -193,7 +201,7 @@ public class joystick : MonoBehaviour {
                     
                     
                     vect = vect.normalized;
-                    setNewPositionTop((int)(jDOWN.GetComponent<RectTransform>().position.x + vect.x * maxOutTopDist), (int)(jDOWN.GetComponent<RectTransform>().position.y + vect.y * maxOutTopDist));
+                    setNewPositionTop((int)(jDOWN.GetComponent<RectTransform>().localPosition.x + vect.x * maxOutTopDist), (int)(jDOWN.GetComponent<RectTransform>().localPosition.y + vect.y * maxOutTopDist));
 
 
 
@@ -243,7 +251,7 @@ public class joystick : MonoBehaviour {
 
 
 
-                    setNewPositionTop((int)(jDOWN.GetComponent<RectTransform>().position.x + vect.x), (int)(jDOWN.GetComponent<RectTransform>().position.y + vect.y));
+                    setNewPositionTop((int)(jDOWN.GetComponent<RectTransform>().localPosition.x + vect.x), (int)(jDOWN.GetComponent<RectTransform>().localPosition.y + vect.y));
 
 
 
@@ -270,10 +278,10 @@ public class joystick : MonoBehaviour {
 
 
 
-      /*  if (Input.GetMouseButtonDown(0))
+       /* if (Input.GetMouseButtonDown(0))
         {
             setNewPosition((int)Input.mousePosition.x, (int)Input.mousePosition.y);
-            Debug.Log("I'm run! Mouse Start!");
+          //  Debug.Log("I'm run! Mouse Start!");
         }
 
 
@@ -283,7 +291,7 @@ public class joystick : MonoBehaviour {
         if (Input.GetMouseButton(0))
         {
             setNewPositionTop((int)Input.mousePosition.x, (int)Input.mousePosition.y);
-            Debug.Log("Mouse in Moove");
+         //   Debug.Log("Mouse in Moove");
         }
 
 
@@ -295,7 +303,7 @@ public class joystick : MonoBehaviour {
         if (Input.GetMouseButtonUp(0))
         {
             resetJoystic();
-            Debug.Log("I'm run! Mouse End!");
+         //   Debug.Log("I'm run! Mouse End!");
 
         }
 
@@ -303,11 +311,12 @@ public class joystick : MonoBehaviour {
 
 
     */
+    
 
     }
 
 
-
+  
 
 
 
