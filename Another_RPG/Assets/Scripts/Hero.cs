@@ -15,11 +15,10 @@ public class Hero : Unit
 
     private void FixedUpdate()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            Jump();
-        }
-        else if (Input.GetButton("Horizontal"))
+        isGrounded = CheckGround();
+        if (!isGrounded) return;
+     
+        if (Input.GetButton("Horizontal"))
         {
             if (Input.GetAxis("Horizontal") > 0)
                 direction = 1;
@@ -27,9 +26,17 @@ public class Hero : Unit
                 direction = -1;
             Move();
         }
-        //else Stop();
+        else if (isGrounded) Stop();
 
         
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            Jump();
+        }
     }
 
     protected override void Move()
@@ -45,13 +52,12 @@ public class Hero : Unit
 
     private void Jump()
     {
-        Vector2 jumpDirection = new Vector2(0.0f, 2.0f);
-        rigidbody.AddForce(jumpDirection * jumpforce, ForceMode2D.Impulse);
-
-        //rigidbody.AddForce(transform.up * jumpforce, ForceMode2D.Impulse);
+        Vector2 jumpDirection = new Vector2(1.0f*direction, 2.0f);
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.AddForce(new Vector2(0, jumpforce),ForceMode2D.Force);
     }
 
-    private bool IsGrounded()
+    private bool CheckGround()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.2f);
         int k = 0;
@@ -62,7 +68,6 @@ public class Hero : Unit
                 k++;
         }
 
-        Debug.Log(k);
 
         return k > 0;
     }
