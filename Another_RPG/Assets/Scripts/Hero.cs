@@ -8,6 +8,8 @@ public class Hero : Unit
     private float jumpforce = 10.0F;
     private bool isGrounded = true;
 
+    public GameObject Joystick;
+
     protected override void DamageRecive()
     {
 
@@ -18,9 +20,9 @@ public class Hero : Unit
         isGrounded = CheckGround();
         if (!isGrounded) return;
      
-        if (Input.GetButton("Horizontal"))
+        if (Input.GetButton("Horizontal") || Joystick.GetComponent<joystick>().GetX() !=0)
         {
-            if (Input.GetAxis("Horizontal") > 0)
+            if (Input.GetAxis("Horizontal") > 0 || Joystick.GetComponent<joystick>().GetX() > 0)
                 direction = 1;
             else
                 direction = -1;
@@ -33,8 +35,13 @@ public class Hero : Unit
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+
+        // Вот тут джойстик ведь выдает не о его нажатии, а о оси
+        //Так что не Input.GetButtonDown("Jump"), а Input.GetButton("Jump") ему эквивалентно
+
+        if ((Input.GetButton("Jump") ||  Joystick.GetComponent<joystick>().GetY() > 0) && isGrounded)
         {
+
             Jump();
         }
     }
