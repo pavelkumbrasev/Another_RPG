@@ -18,10 +18,10 @@ public class Camera : MonoBehaviour {
     {
         position.x = target.transform.position.x;
         position.z = -10.0F;
-        position.y = target.transform.position.y+0.5f;
+        position.y = target.transform.position.y+1.0f;
     }
 	private void FixedUpdate(){
-        position.x = target.transform.position.x;
+        position.x = target.transform.position.x+1.3f;
         transform.position = Vector3.Lerp (transform.position, position, speed * Time.deltaTime);
 
 	}
