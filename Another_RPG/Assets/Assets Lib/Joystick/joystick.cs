@@ -11,6 +11,10 @@ public class joystick : MonoBehaviour {
     public float VerticalAxis; // Тоже
 
 
+    private float Ysost = 0;
+    private float Xsost = 0;
+
+
     private Touch th;
 
     public float deathZone = 1.0f / 2; // Мертвая зона контроллера [0..1]. 1/10 - 10% расстояния не будут восприниматься никак 
@@ -61,6 +65,11 @@ public class joystick : MonoBehaviour {
         resetJoystic();
         setSize();
 
+
+      //  jTOP.GetComponent<RectTransform>().position = new Vector3(0, 0, GetComponent<Canvas>().worldCamera.transform.position.z);
+      //  jDOWN.GetComponent<RectTransform>().position = new Vector3(0, 0, GetComponent<Canvas>().worldCamera.transform.position.z);
+
+
     }
 
 
@@ -92,7 +101,9 @@ public class joystick : MonoBehaviour {
 
     public float GetY()
     {
-        return VerticalAxis;
+       float tmp = VerticalAxis;
+        VerticalAxis = 0;
+        return tmp;
     }
 
 
