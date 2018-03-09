@@ -9,7 +9,7 @@ public class Hero : Unit
     private float groundRadius = 0.2f;
     public LayerMask whatIsGround;
     [SerializeField]
-    public float epsilon = 0; //Коэфицент соскальзывания
+    public float epsilon = 0; 
     [SerializeField]
     private float jumpforce = 10.0F;
     private bool isGrounded = true;
@@ -27,7 +27,7 @@ public class Hero : Unit
         isGrounded = CheckGround();
 
 
-        if (!CheckGround() && Mathf.Abs(rigidbody.velocity.y) <= epsilon) return;
+        if (!CheckGround() && rigidbody.velocity.y <= epsilon && rigidbody.velocity.y <= 0) return;
 
         if (Input.GetButton("Horizontal") || Joystick.GetComponent<joystick>().GetX() !=0)
         {
@@ -47,7 +47,6 @@ public class Hero : Unit
         }
 
 
-        //  else if (isGrounded) Stop();
 
 
     }
@@ -63,15 +62,11 @@ public class Hero : Unit
         sprite.flipX = direction < 0.0F; 
     }
 
-    private void Stop()
-    {
-        rigidbody.velocity = new Vector2(0.0f, 0.0f);
-    }
 
     private void Jump()
     {
         rigidbody.velocity = Vector3.zero;
-           rigidbody.AddForce(new Vector2(0, jumpforce),ForceMode2D.Impulse);
+        rigidbody.AddForce(new Vector2(0, jumpforce),ForceMode2D.Impulse);
         
     }
 
