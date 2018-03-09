@@ -28,8 +28,8 @@ public class Hero : Unit
 
 
         if (!CheckGround() && rigidbody.velocity.y <= epsilon && rigidbody.velocity.y <= 0) return;
-
-        if (Input.GetButton("Horizontal") || Joystick.GetComponent<joystick>().GetX() !=0)
+        
+        if (Input.GetButton("Horizontal") || Joystick.GetComponent<joystick>().GetX() != 0)
         {
             if (Input.GetAxis("Horizontal") > 0 || Joystick.GetComponent<joystick>().GetX() > 0)
                 direction = 1;
@@ -66,7 +66,7 @@ public class Hero : Unit
     private void Jump()
     {
         rigidbody.velocity = Vector3.zero;
-        rigidbody.AddForce(new Vector2(0, jumpforce),ForceMode2D.Impulse);
+        rigidbody.AddForce(new Vector2(0, jumpforce), ForceMode2D.Impulse);
         
     }
 
