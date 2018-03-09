@@ -68,7 +68,6 @@ public class joystick : MonoBehaviour {
 
       //  jTOP.GetComponent<RectTransform>().position = new Vector3(0, 0, GetComponent<Canvas>().worldCamera.transform.position.z);
       //  jDOWN.GetComponent<RectTransform>().position = new Vector3(0, 0, GetComponent<Canvas>().worldCamera.transform.position.z);
-        Debug.Log(jTOP.GetComponent<RectTransform>().position);
 
 
     }
