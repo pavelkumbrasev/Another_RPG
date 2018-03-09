@@ -8,18 +8,21 @@ public class Camera : MonoBehaviour {
 	private float speed=10.0F;
 	[SerializeField]
 	private Transform target;
+    private Vector3 position;
 
-
-	private void Awake(){
+    private void Awake(){
 		if (!target)
 			target = FindObjectOfType<Hero> ().transform;
 	}
+    private void Start()
+    {
+        position.x = target.transform.position.x;
+        position.z = -10.0F;
+        position.y = target.transform.position.y+0.5f;
+    }
 	private void FixedUpdate(){
-		Vector3 position ;
-        position = target.transform.position;
-		position.z = -10.0F;
-        position.y += 0.5f;
-		transform.position = Vector3.Lerp (transform.position, position, speed * Time.deltaTime);
+        position.x = target.transform.position.x;
+        transform.position = Vector3.Lerp (transform.position, position, speed * Time.deltaTime);
 
 	}
 }
