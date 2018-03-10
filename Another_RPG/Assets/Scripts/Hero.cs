@@ -17,7 +17,7 @@ public class Hero : Unit
 
     public GameObject Joystick;
 
-    protected override void DamageRecive()
+    public override void DamageRecive(float damage)
     {
 
     }

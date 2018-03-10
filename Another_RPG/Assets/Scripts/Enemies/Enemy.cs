@@ -15,5 +15,4 @@ public class Enemy : Unit {
         base.Awake();
         target = FindObjectOfType<Hero>();
     }
-   
 }

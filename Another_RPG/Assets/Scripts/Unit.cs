@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
 
 	}
 
-	protected virtual void DamageRecive()
+	public virtual void DamageRecive(float damage)
     {
 		gameObject.SetActive (false);
 	}
