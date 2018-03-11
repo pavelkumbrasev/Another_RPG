@@ -9,6 +9,7 @@ public class Camera : MonoBehaviour {
 	[SerializeField]
 	private Transform target;
     private Vector3 position;
+    private float localY;
 
     private void Awake(){
 		if (!target)
@@ -16,13 +17,32 @@ public class Camera : MonoBehaviour {
 	}
     private void Start()
     {
-        position.x = target.transform.position.x;
-        position.z = -10.0F;
-        position.y = target.transform.position.y+1.0f;
+        transform.position = new Vector3(target.transform.position.x, target.transform.position.y, transform.position.z);
+        localY = transform.position.y;
     }
-	private void FixedUpdate(){
-        position.x = target.transform.position.x+1.3f;
-        transform.position = Vector3.Lerp (transform.position, position, speed * Time.deltaTime);
+
+
+    private void Update()
+    {
+
+        transform.position = new Vector3(target.transform.position.x, localY, transform.position.z);
+
+
+    }
+
+
+
+
+
+
+    private void FixedUpdate(){
+
+        if (target.GetComponent<Hero>().CheckGround())
+            localY = target.position.y + (localY - target.position.y)*0.9f;
+
+            
+
+
 
 	}
 }
