@@ -19,7 +19,7 @@ public class SimpleRunMonster : MovableEnemy {
         if (flag)
         {
             rigidbody.velocity = new Vector2(0, 0);
-            Debug.Log(Mathf.Abs(transform.position.y - target.transform.position.y));
+           // Debug.Log(Mathf.Abs(transform.position.y - target.transform.position.y));
             if ((target.transform.position.x - transform.position.x) < 0.5f && Mathf.Abs(transform.position.y - target.transform.position.y) < 1)
             {
                 direction = Mathf.Sign(target.transform.position.x - transform.position.x);

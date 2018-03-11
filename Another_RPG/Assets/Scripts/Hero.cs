@@ -32,8 +32,30 @@ public class Hero : Unit
         isGrounded = CheckGround();
 
 
-        if (!isGrounded && rigidbody.velocity.y <= epsilon && rigidbody.velocity.y <= 0) return;
-        
+
+        if ((Input.GetButton("Jump") || Joystick.GetComponent<joystick>().GetY() > 0) && isGrounded)
+        {
+            Jump();
+        }
+
+
+
+        if (!isGrounded && Mathf.Abs(rigidbody.velocity.y) <= epsilon && rigidbody.velocity.y <= 0)
+        {
+
+
+            Debug.Log(epsilon);
+            Debug.Log(rigidbody.velocity.y);
+            Debug.Log("Input is blocked!");
+            return;
+           
+
+
+        } 
+
+
+
+
         if (Input.GetButton("Horizontal") || Joystick.GetComponent<joystick>().GetX() != 0)
         {
             if (Input.GetAxis("Horizontal") > 0 || Joystick.GetComponent<joystick>().GetX() > 0)
@@ -46,11 +68,7 @@ public class Hero : Unit
 
 
 
-        if ((Input.GetButton("Jump") || Joystick.GetComponent<joystick>().GetY() > 0) && isGrounded)
-        {
-            Jump();
-        }
-
+       
 
 
         if (Input.GetButton("Fire1"))
@@ -81,7 +99,12 @@ public class Hero : Unit
 
     private void Jump()
     {
-        rigidbody.velocity = Vector3.zero;
+        //rigidbody.velocity = Vector3.zero; 
+      /*
+       * Ну нельзя так делать. Это останавливает персонажа. Персонаж не должен останавливаться
+       * при прыжке
+       * 
+       */
         rigidbody.AddForce(new Vector2(0, jumpforce), ForceMode2D.Impulse);
         
     }
