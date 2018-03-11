@@ -24,7 +24,7 @@ public class joystick : MonoBehaviour {
     public GameObject jDOWN;
 
 
-
+    public bool HorizontalModeOnly = false;
 
     private float size; // В пикселях. Реальный размер джойстика в пикселях
     public float sizeCoef = 1.0f / 8; // [0,1] относительно ширины экрана 
