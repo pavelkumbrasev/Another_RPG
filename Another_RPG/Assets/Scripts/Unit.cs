@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     protected float direction = 1.0f;
     protected Animator animator;
     new protected Rigidbody2D rigidbody;
-
+    public float getDirection() { return direction; }
     protected virtual void Awake()
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -25,7 +25,7 @@ public class Unit : MonoBehaviour
 
 	}
 
-	protected virtual void DamageRecive()
+	public virtual void DamageRecive(float damage)
     {
 		gameObject.SetActive (false);
 	}

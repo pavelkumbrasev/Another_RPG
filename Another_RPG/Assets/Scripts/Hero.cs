@@ -9,7 +9,7 @@ public class Hero : Unit
     private float groundRadius = 0.2f;
     public LayerMask whatIsGround;
     [SerializeField]
-    public float epsilon = 0; 
+    private float epsilon = 0;
     [SerializeField]
     private float jumpforce = 10.0F;
     private bool isGrounded = true;
@@ -17,7 +17,7 @@ public class Hero : Unit
 
     public GameObject Joystick;
 
-    protected override void DamageRecive()
+    public override void DamageRecive(float damage)
     {
 
     }
@@ -27,7 +27,7 @@ public class Hero : Unit
         isGrounded = CheckGround();
 
 
-        if (!CheckGround() && rigidbody.velocity.y <= epsilon && rigidbody.velocity.y <= 0) return;
+        if (!isGrounded && rigidbody.velocity.y <= epsilon && rigidbody.velocity.y <= 0) return;
         
         if (Input.GetButton("Horizontal") || Joystick.GetComponent<joystick>().GetX() != 0)
         {
