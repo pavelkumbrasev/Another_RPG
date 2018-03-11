@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 
 public class Hero : Unit
 {
@@ -14,6 +15,10 @@ public class Hero : Unit
     private float jumpforce = 10.0F;
     private bool isGrounded = true;
 
+    [SerializeField]
+    private Weapon HeroWeapon;
+
+    Vector3 delta = new Vector3(0.6f, 0.5f);
 
     public GameObject Joystick;
 
@@ -48,7 +53,18 @@ public class Hero : Unit
 
 
 
+        if (Input.GetButton("Fire1"))
+        {
+            HeroWeapon.gameObject.SetActive(true);
+            HeroWeapon.setActivity(true);
 
+            delta.x = 0.6f * direction;
+            HeroWeapon.transform.position = gameObject.transform.position + delta;
+            HeroWeapon.getSprite().flipX = direction < 0.0f;
+
+            Thread hideThread = new Thread(new ThreadStart(HeroWeapon.TimerOff));
+            hideThread.Start();
+        }
     }
 
     private void Update()
