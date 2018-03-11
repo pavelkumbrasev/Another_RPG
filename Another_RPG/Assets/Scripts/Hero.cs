@@ -70,7 +70,7 @@ public class Hero : Unit
         
     }
 
-    private bool CheckGround()
+    public bool CheckGround()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, groundRadius, whatIsGround);
         return isGrounded = colliders.Length > 0;
