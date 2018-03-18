@@ -93,7 +93,20 @@ public class Hero : Unit
     protected override void Move()
     {
         rigidbody.velocity = new Vector2(direction * speed, rigidbody.velocity.y);
-        sprite.flipX = direction < 0.0F; 
+        //  sprite.flipX = direction < 0.0F;
+
+       
+            SpriteRenderer [] sp = GetComponentsInChildren<SpriteRenderer>();
+
+        for (int i = 0; i < sp.GetLength(0); i++)
+        {
+            sp[i].flipX = direction < 0.0F;
+
+        }
+
+
+        
+
     }
 
 
