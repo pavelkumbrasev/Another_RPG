@@ -7,9 +7,9 @@ using System.Threading;
 public class Weapon : MonoBehaviour {
     public float damage;
     public float radAttack;
-
+    private bool stay = false;
     [SerializeField]
-    public float hideTime = 0.2f;
+    public float hideTime = 0.02f;
     private bool activity = false;
     public void setActivity(bool value) { activity = value; }
 
@@ -23,9 +23,11 @@ public class Weapon : MonoBehaviour {
     protected void OnEnable()
     {
         StartCoroutine(Hide());
+        
     }
     private IEnumerator Hide()
     {
+        
         yield return new WaitForSeconds(hideTime);
         gameObject.SetActive( false);
              
@@ -37,12 +39,13 @@ public class Weapon : MonoBehaviour {
         gameObject.SetActive(activity);
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        Unit unit = col.GetComponent<Unit>();
+        Unit  unit = collider.GetComponent<Unit>();
         if (unit && unit is Enemy)
             unit.DamageRecive(damage);
+
     }
 
-    
+   
 }

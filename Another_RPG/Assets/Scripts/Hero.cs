@@ -20,7 +20,7 @@ public class Hero : Unit
     private Weapon HeroWeapon;
     bool flag = true;
     Vector3 delta = new Vector3(0.6f, 0.5f);
-
+    private float KOSTYL = 0.1f;
     public GameObject Joystick;
 
     public override void DamageRecive(float damage)
@@ -88,6 +88,19 @@ public class Hero : Unit
 
         delta.x = 0.6f * direction;
         HeroWeapon.transform.position = gameObject.transform.position + delta;
+        Vector3 pos = HeroWeapon.transform.position;
+        if (KOSTYL == 0.02f)
+        {
+            pos.y += KOSTYL;
+            HeroWeapon.transform.position=pos;
+            KOSTYL = -0.02f;
+        }
+        else
+        {
+            pos.y += KOSTYL;
+            HeroWeapon.transform.position = pos;
+            KOSTYL = 0.02f;
+        }
         HeroWeapon.getSprite().flipX = direction < 0.0f;
         flag = false;
         yield return new WaitForSeconds(attackTime);
