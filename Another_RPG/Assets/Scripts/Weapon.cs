@@ -9,7 +9,7 @@ public class Weapon : MonoBehaviour {
     public float radAttack;
 
     [SerializeField]
-    public int hideTime = 50;
+    public float hideTime = 0.2f;
     private bool activity = false;
     public void setActivity(bool value) { activity = value; }
 
@@ -19,6 +19,17 @@ public class Weapon : MonoBehaviour {
     protected virtual void Awake()
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
+    }
+    protected void OnEnable()
+    {
+        StartCoroutine(Hide());
+    }
+    private IEnumerator Hide()
+    {
+        yield return new WaitForSeconds(hideTime);
+        gameObject.SetActive( false);
+             
+
     }
 
     private void FixedUpdate()
@@ -33,10 +44,5 @@ public class Weapon : MonoBehaviour {
             unit.DamageRecive(damage);
     }
 
-    public void TimerOff()
-    {
-        Thread.Sleep(hideTime);
-        activity = false;
-    }
     
 }
