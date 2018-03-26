@@ -22,6 +22,8 @@ public class Hero : Unit
     Vector3 delta = new Vector3(0.6f, 0.5f);
     private float KOSTYL = 0.1f;
     public GameObject Joystick;
+    public float flyTime;
+    public float realSpeed; // Скорость после пересчета Time.deltatime
 
     public override void DamageRecive(float damage)
     {
@@ -31,6 +33,21 @@ public class Hero : Unit
     private void FixedUpdate()
     {
         isGrounded = CheckGround();
+
+
+
+
+        if (isGrounded)           //Вот эта штука призвана решить проблему прилипания к стенам
+            flyTime = 0;
+        else
+            flyTime += Time.deltaTime;
+
+        realSpeed = speed * 1.0f / ((flyTime + 1)) ;
+
+
+
+
+
 
 
 
@@ -64,7 +81,7 @@ public class Hero : Unit
        
 
 
-        if ((Input.GetButton("Fire1") ||  flag && Joystick.GetComponent<joystick>().GetAtack() > 0) && flag)
+        if ((Input.GetButton("Fire1") && (Application.platform != RuntimePlatform.Android) ||  flag && Joystick.GetComponent<joystick>().GetAtack() > 0) && flag)
         {
             StartCoroutine(Attack());
         }
@@ -105,7 +122,7 @@ public class Hero : Unit
     }
     protected override void Move()
     {
-        rigidbody.velocity = new Vector2(direction * speed, rigidbody.velocity.y);
+        rigidbody.velocity = new Vector2(direction * realSpeed, rigidbody.velocity.y);
         //  sprite.flipX = direction < 0.0F;
 
        
