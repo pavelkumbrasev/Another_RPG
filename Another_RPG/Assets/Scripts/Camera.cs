@@ -38,7 +38,7 @@ public class Camera : MonoBehaviour {
     private void FixedUpdate(){
 
         if (target.GetComponent<Hero>().CheckGround())
-            localY = target.position.y + (localY - target.position.y)*0.9f;
+            localY = target.position.y +0.15f+ (localY - target.position.y)*0.9f;
 
             
 

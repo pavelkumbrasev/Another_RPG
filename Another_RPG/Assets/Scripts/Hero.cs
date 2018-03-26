@@ -14,12 +14,13 @@ public class Hero : Unit
     [SerializeField]
     private float jumpforce = 10.0F;
     private bool isGrounded = true;
-
+    [SerializeField]
+    private float attackTime = 0.5f;
     [SerializeField]
     private Weapon HeroWeapon;
-
+    bool flag = true;
     Vector3 delta = new Vector3(0.6f, 0.5f);
-
+    private float KOSTYL = 0.1f;
     public GameObject Joystick;
 
     public override void DamageRecive(float damage)
@@ -44,9 +45,7 @@ public class Hero : Unit
         {
 
 
-            Debug.Log(epsilon);
-            Debug.Log(rigidbody.velocity.y);
-            Debug.Log("Input is blocked!");
+           
             return;
            
 
@@ -71,17 +70,9 @@ public class Hero : Unit
        
 
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && flag)
         {
-            HeroWeapon.gameObject.SetActive(true);
-            HeroWeapon.setActivity(true);
-
-            delta.x = 0.6f * direction;
-            HeroWeapon.transform.position = gameObject.transform.position + delta;
-            HeroWeapon.getSprite().flipX = direction < 0.0f;
-
-            Thread hideThread = new Thread(new ThreadStart(HeroWeapon.TimerOff));
-            hideThread.Start();
+            StartCoroutine(Attack());
         }
     }
 
@@ -89,7 +80,34 @@ public class Hero : Unit
     {
 
     }
+    private IEnumerator Attack()
+    {
+        
+        HeroWeapon.gameObject.SetActive(true);
+        HeroWeapon.setActivity(true);
 
+        delta.x = 0.6f * direction;
+        HeroWeapon.transform.position = gameObject.transform.position + delta;
+        Vector3 pos = HeroWeapon.transform.position;
+        if (KOSTYL == 0.02f)
+        {
+            pos.y += KOSTYL;
+            HeroWeapon.transform.position=pos;
+            KOSTYL = -0.02f;
+        }
+        else
+        {
+            pos.y += KOSTYL;
+            HeroWeapon.transform.position = pos;
+            KOSTYL = 0.02f;
+        }
+        HeroWeapon.getSprite().flipX = direction < 0.0f;
+        flag = false;
+        yield return new WaitForSeconds(attackTime);
+        flag = true;
+
+
+    }
     protected override void Move()
     {
         rigidbody.velocity = new Vector2(direction * speed, rigidbody.velocity.y);

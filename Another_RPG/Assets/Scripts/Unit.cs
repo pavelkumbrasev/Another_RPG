@@ -29,5 +29,9 @@ public class Unit : MonoBehaviour
     {
 		gameObject.SetActive (false);
 	}
+    public virtual void Die()
+    {
+        gameObject.SetActive(false);
+    }
 
 }
