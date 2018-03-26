@@ -24,7 +24,7 @@ public class Hero : Unit
     public GameObject Joystick;
     public float flyTime;
     public float realSpeed; // Скорость после пересчета Time.deltatime
-
+    public float deltaX;
     public override void DamageRecive(float damage)
     {
 
@@ -34,7 +34,7 @@ public class Hero : Unit
     {
         isGrounded = CheckGround();
 
-
+        deltaX = Mathf.Abs(rigidbody.velocity.x * Time.deltaTime);
 
 
         if (isGrounded)           //Вот эта штука призвана решить проблему прилипания к стенам
@@ -42,9 +42,9 @@ public class Hero : Unit
         else
             flyTime += Time.deltaTime;
 
-        realSpeed = speed * 1.0f / ((flyTime + 1)) ;
+        realSpeed = speed * 1.0f / ((flyTime + 1));
 
-
+        
 
 
 
@@ -92,6 +92,9 @@ public class Hero : Unit
     {
 
     }
+
+
+
     private IEnumerator Attack()
     {
         
