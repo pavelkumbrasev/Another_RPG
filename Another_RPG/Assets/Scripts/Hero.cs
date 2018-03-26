@@ -41,17 +41,11 @@ public class Hero : Unit
 
 
 
-        if (!isGrounded && Mathf.Abs(rigidbody.velocity.y) <= epsilon && rigidbody.velocity.y <= 0)
-        {
-
-
-           
+     /*   if (!isGrounded && Mathf.Abs(rigidbody.velocity.y) <= epsilon && rigidbody.velocity.y <= 0)
+        {  
             return;
-           
-
-
-        } 
-
+        }  Пока закоментил. Она слишком много от управления жрет
+    */
 
 
 
@@ -70,10 +64,11 @@ public class Hero : Unit
        
 
 
-        if (Input.GetButton("Fire1") && flag)
+        if ((Input.GetButton("Fire1") ||  flag && Joystick.GetComponent<joystick>().GetAtack() > 0) && flag)
         {
             StartCoroutine(Attack());
         }
+        
     }
 
     private void Update()
