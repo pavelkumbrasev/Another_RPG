@@ -29,6 +29,9 @@ public class SimpleRunMonster : MovableEnemy {
         }
         else flag = false;
     }
+
+
+
     protected override void Move()
     {
         direction = Mathf.Sign(target.transform.position.x - transform.position.x);
@@ -39,4 +42,6 @@ public class SimpleRunMonster : MovableEnemy {
             sprite.flipX = direction > 0.0F;
         }
     }
+
+
 }
