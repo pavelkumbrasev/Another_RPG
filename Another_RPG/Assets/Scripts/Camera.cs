@@ -10,7 +10,8 @@ public class Camera : MonoBehaviour {
 	private Transform target;
     private Vector3 position;
     private float localY;
-    public float eps; // Расстояние по y при котором камера все еще не реагирует на смещение
+    public float epsD;
+    public float epsU;// Расстояние по y при котором камера все еще не реагирует на смещение
     public float soft = 0.9f; // Коэфицент лпавности смещения камеры
 
     private void Awake(){
@@ -37,13 +38,18 @@ public class Camera : MonoBehaviour {
             localY = target.position.y + 0.15f + (localY - target.position.y) * 0.9f;
         }
         else
-          if (Mathf.Abs(localY - target.position.y) > eps)
+        if (transform.position.y - target.position.y > 0 && Mathf.Abs(transform.position.y - target.position.y) > epsD)
         {
-            localY = target.position.y + 0.15f + eps;
+            localY = target.position.y + epsD;
             transform.position = new Vector3(target.transform.position.x, localY, transform.position.z);
         }
+        else
+        if (transform.position.y - target.position.y < 0 && Mathf.Abs(transform.position.y - target.position.y) > epsU)
+        {
+            localY = target.position.y - epsU;
+            transform.position = new Vector3(target.transform.position.x, localY, transform.position.z);
 
-
+        }
 
     
 
