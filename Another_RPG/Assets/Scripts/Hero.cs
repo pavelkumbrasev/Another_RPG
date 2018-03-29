@@ -99,8 +99,6 @@ public class Hero : Unit
     {
         
         HeroWeapon.gameObject.SetActive(true);
-        HeroWeapon.setActivity(true);
-
         delta.x = 0.6f * direction;
         HeroWeapon.transform.position = gameObject.transform.position + delta;
         Vector3 pos = HeroWeapon.transform.position;
