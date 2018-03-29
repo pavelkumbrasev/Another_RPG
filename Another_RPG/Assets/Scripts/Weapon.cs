@@ -10,9 +10,6 @@ public class Weapon : MonoBehaviour {
     private bool stay = false;
     [SerializeField]
     public float hideTime = 0.02f;
-    private bool activity = false;
-    public void setActivity(bool value) { activity = value; }
-
     protected SpriteRenderer sprite;
     public SpriteRenderer getSprite() { return sprite; }
 
@@ -23,7 +20,8 @@ public class Weapon : MonoBehaviour {
     protected void OnEnable()
     {
         StartCoroutine(Hide());
-        
+
+
     }
     private IEnumerator Hide()
     {
@@ -34,16 +32,12 @@ public class Weapon : MonoBehaviour {
 
     }
 
-    private void FixedUpdate()
-    {
-        gameObject.SetActive(activity);
-    }
-
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Unit  unit = collider.GetComponent<Unit>();
-        if (unit && unit is Enemy)
-            unit.DamageRecive(damage);
+        Unit[] unit = collider.GetComponents<Unit>();
+        for (int i=0;i<unit.Length;i++)
+            if (unit[i] && unit[i] is Enemy)
+                unit[i].DamageRecive(damage);
 
     }
 
