@@ -7,12 +7,9 @@ using System.Threading;
 public class Weapon : MonoBehaviour {
     public float damage;
     public float radAttack;
-
+    private bool stay = false;
     [SerializeField]
-    public int hideTime = 50;
-    private bool activity = false;
-    public void setActivity(bool value) { activity = value; }
-
+    public float hideTime = 0.02f;
     protected SpriteRenderer sprite;
     public SpriteRenderer getSprite() { return sprite; }
 
@@ -20,23 +17,29 @@ public class Weapon : MonoBehaviour {
     {
         sprite = GetComponentInChildren<SpriteRenderer>();
     }
-
-    private void FixedUpdate()
+    protected void OnEnable()
     {
-        gameObject.SetActive(activity);
+        StartCoroutine(Hide());
+
+
+    }
+    private IEnumerator Hide()
+    {
+        
+        yield return new WaitForSeconds(hideTime);
+        gameObject.SetActive( false);
+             
+
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        Unit unit = col.GetComponent<Unit>();
-        if (unit && unit is Enemy)
-            unit.DamageRecive(damage);
+        Unit[] unit = collider.GetComponents<Unit>();
+        for (int i=0;i<unit.Length;i++)
+            if (unit[i] && unit[i] is Enemy)
+                unit[i].DamageRecive(damage);
+
     }
 
-    public void TimerOff()
-    {
-        Thread.Sleep(hideTime);
-        activity = false;
-    }
-    
+   
 }

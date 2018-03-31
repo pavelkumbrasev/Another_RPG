@@ -10,6 +10,9 @@ public class Camera : MonoBehaviour {
 	private Transform target;
     private Vector3 position;
     private float localY;
+    public float epsD;
+    public float epsU;// Расстояние по y при котором камера все еще не реагирует на смещение
+    public float soft = 0.9f; // Коэфицент лпавности смещения камеры
 
     private void Awake(){
 		if (!target)
@@ -28,21 +31,40 @@ public class Camera : MonoBehaviour {
         transform.position = new Vector3(target.transform.position.x, localY, transform.position.z);
 
 
-    }
 
-
-
-
-
-
-    private void FixedUpdate(){
 
         if (target.GetComponent<Hero>().CheckGround())
-            localY = target.position.y + (localY - target.position.y)*0.9f;
+        {
+            localY = target.position.y + 0.15f + (localY - target.position.y) * 0.9f;
+        }
+        else
+        if (transform.position.y - target.position.y > 0 && Mathf.Abs(transform.position.y - target.position.y) > epsD)
+        {
+            localY = target.position.y + epsD;
+            transform.position = new Vector3(target.transform.position.x, localY, transform.position.z);
+        }
+        else
+        if (transform.position.y - target.position.y < 0 && Mathf.Abs(transform.position.y - target.position.y) > epsU)
+        {
+            localY = target.position.y - epsU;
+            transform.position = new Vector3(target.transform.position.x, localY, transform.position.z);
 
-            
+        }
+
+    
 
 
 
-	}
+}
+
+
+
+
+
+
+    private void FixedUpdate()
+    {
+
+
+    }
 }
