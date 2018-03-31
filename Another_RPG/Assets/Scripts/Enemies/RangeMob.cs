@@ -10,7 +10,8 @@ public class RangeMob : Enemy {
     protected override void Awake()
     {
         base.Awake();
-        bullet = Resources.Load<Bullet>("Bullet");
+        //bullet = Resources.Load<Bullet>("Bullet");
+        bullet = Resources.Load<Bullet>("Bottle");
         lastShotTime = DateTime.Now;
     }
 
