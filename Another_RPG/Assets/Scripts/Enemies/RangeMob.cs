@@ -31,5 +31,6 @@ public class RangeMob : Enemy {
 
         Bullet newBullet = Instantiate(bullet, position, bullet.transform.rotation) as Bullet;
         newBullet.Direction = new Vector3(direction, 0);
+        newBullet.Owner = this;
     }
 }

@@ -25,9 +25,10 @@ public class Hero : Unit
     public float flyTime;
     public float realSpeed; // Скорость после пересчета Time.deltatime
     public float deltaX;
+
     public override void DamageRecive(float damage)
     {
-
+        Debug.Log("Recive damage");
     }
 
     private void FixedUpdate()
@@ -157,5 +158,14 @@ public class Hero : Unit
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, groundRadius, whatIsGround);
         return isGrounded = colliders.Length > 0;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        Bullet bullet = collider.GetComponent<Bullet>();
+        if (bullet)
+        {
+            DamageRecive(1.0f);
+        }
     }
 }
