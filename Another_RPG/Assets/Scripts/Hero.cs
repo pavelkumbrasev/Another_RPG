@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading;
-
+using UnityEngine.UI;
 public class Hero : Unit
 {
-
+    [SerializeField]
+    private Image progressIM;
     [SerializeField]
     private float groundRadius = 0.2f;
     public LayerMask whatIsGround;
@@ -25,10 +26,15 @@ public class Hero : Unit
     public float flyTime;
     public float realSpeed; // Скорость после пересчета Time.deltatime
     public float deltaX;
-
+    public float startHealth;
+    private void Start()
+    {
+        startHealth = health_point;
+    }
     public override void DamageRecive(float damage)
     {
-        Debug.Log("Recive damage");
+        health_point -= (int)damage;
+        progressIM.fillAmount = (health_point / startHealth);
     }
 
     private void FixedUpdate()
